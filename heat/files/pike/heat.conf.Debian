@@ -1777,7 +1777,7 @@ password = {{ server.identity.password }}
 project_name = {{ server.identity.tenant }}
 project_domain_name = Default
 user_domain_name = Default
-{%- if server.cache is defined %}
+{%- if server.get('cache', {}).members is defined %}
 memcached_servers={%- for member in server.cache.members %}{{ member.host }}:11211{% if not loop.last %},{% endif %}{%- endfor %}
   {%- if server.cache.get('security', {}).get('enabled', False) %}
 memcache_security_strategy = {{ server.cache.security.get('strategy', 'ENCRYPT') }}
@@ -1787,9 +1787,7 @@ memcache_security_strategy = {{ server.cache.security.get('strategy', 'ENCRYPT')
 memcache_secret_key = {{ server.cache.security.secret_key }}
     {%- endif %}
   {%- endif %}
-{%- endif %}
 
-{%- if server.cache is defined %}
 [cache]
 enabled=True
 backend=oslo_cache.memcache_pool

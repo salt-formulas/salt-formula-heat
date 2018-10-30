@@ -437,11 +437,8 @@ admin_tenant_name={{ server.identity.tenant }}
 #project_name = {{ server.identity.tenant }}
 #project_domain_name = default
 #user_domain_name = default
-{%- if server.cache is defined %}
-#memcached_servers={%- for member in server.cache.members %}{{ member.host }}:11211{% if not loop.last %},{% endif %}{%- endfor %}
-{%- endif %}
 
-{%- if server.cache is defined %}
+{%- if server.get('cache', {}).members is defined %}
 [cache]
 enabled=True
 backend=oslo_cache.memcache_pool
